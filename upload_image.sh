@@ -49,8 +49,7 @@ if [[ $free_space -ge 98 ]];then
 
 	# grab an image from the camera
 	# -vf / -hf are vertical and horizontal flip parameters
-	raspistill -n \
-	 -mm matrix \
+	raspistill -mm matrix \
 	 -awb off \
 	 -awbg 1.5,1.2 \
 	 -md 4 \
@@ -58,7 +57,7 @@ if [[ $free_space -ge 98 ]];then
 	 -vf -hf \
 	 -t 500 \
 	 -x EXIF.WhiteBalance=1 \
-	 -ex night \
+	 --ISO 100 \
 	 -th none \
 	 -o tmp.jpg
 

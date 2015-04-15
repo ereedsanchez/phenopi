@@ -1,10 +1,9 @@
 #!/usr/bin/expect
 
 # read parameters
-ip_address=$1
-sitename=$2
-privacy=$3
-
+set ip_address [lindex $argv 0]; # Grab the first command line parameter
+set sitename [lindex $argv 1]; # Grab the first command line parameter
+set privacy [lindex $argv 2]; # Grab the first command line parameter
 
 # login to the pi using the default password
 # run the install script
@@ -13,12 +12,12 @@ expect "?*assword"
 send "raspberry\r"
 
 # download the install files
-#expect "pi@"
-#send "wget https://myfile.com/test.tar.gz\r"
+expect "pi@"
+send "wget https://bitbucket.org/khufkens/phenopi/get/phenopi.tar.gz\r"
 
 # unzip install files
 expect "pi@"
-send "tar xf test.tar.gz\r"
+send "tar -xvf phenopi.tar.gz\r"
 
 expect "pi@"
 send "./phenopi_install.sh ${sitename} ${privacy}\r"
