@@ -70,7 +70,7 @@ else
 	i2c=`grep "dtparam=i2c_arm=on" /boot/config.txt | wc -l`
 	rtc=`grep "dtoverlay=ds1307-rtc" /boot/config.txt | wc -l`
 
-	if [[ i2c == 0 & rtc == 0 ]]; then
+	if [[ i2c == 0 && rtc == 0 ]]; then
 		# adjust config.txt
 		sudo cat "dtparam=i2c1=on" >> /boot/config.txt
 		sudo cat "dtparam=i2c_arm=on" >> /boot/config.txt
@@ -79,7 +79,7 @@ else
 	i2c=`grep "i2c" /etc/modules | wc -l`
 	rtc=`grep "rtc" /etc/modules | wc -l`
 
-	if [[ i2c == 0 & rtc == 0 ]]; then
+	if [[ i2c == 0 && rtc == 0 ]]; then
 		# add modules to /etc/modules
 		sudo cat "i2c-bcm2708" >> /etc/modules
 		sudo cat "i2c-dev" >> /etc/modules
