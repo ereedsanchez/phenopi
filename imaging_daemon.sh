@@ -20,7 +20,7 @@ connection=`ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error`
 # update the hwclock. The internet connection is necessary to
 # update the software clock using an NTP server. If there is
 # no network this makes not sense
-if [[ ${rtc_present} == 1 & $connection =="ok" ]]; then
+if [[ ${rtc_present} == "1" && $connection == "ok" ]]; then
 	sudo hwclock -w
 fi
 
@@ -28,7 +28,7 @@ fi
 # if it's not time to take an image to upload
 # update the image stream for the mjpg streamer
 # webpage at /tmp/stream/pic.jpg
-while:
+while true;
 do
 
 # grap current time
