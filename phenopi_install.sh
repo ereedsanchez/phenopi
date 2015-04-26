@@ -13,7 +13,6 @@ echo 'raspberry' | sudo -Sk apt-get -y upgrade
 echo 'raspberry' | sudo -Sk apt-get -y clean
 
 # install all packages
-echo 'raspberry' | sudo -Sk apt-get -y install apache2 # install web server
 echo 'raspberry' | sudo -Sk apt-get -y install imagemagick # image manipulation software
 echo 'raspberry' | sudo -Sk apt-get -y install exif # install exif library 
 echo 'raspberry' | sudo -Sk apt-get -y install xrdp # remote graphical login
@@ -22,9 +21,7 @@ echo 'raspberry' | sudo -Sk apt-get -y install xrdp # remote graphical login
 sudo mv index.html /var/www/
 
 # set crontab file
-echo "30 4-22 * * * ./upload_image.sh $1 $2" > tmpcron.txt
-crontab tmpcron.txt
-rm tmpcron.txt
+init script on startup
 
 # exit
 exit 0 

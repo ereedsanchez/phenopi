@@ -12,9 +12,6 @@
 # load the weather library
 source get_weather.sh
 
-# get weather data
-weather_string=$(get_weather)
-
 # camera type
 camera="PhenoPi"
 
@@ -61,6 +58,15 @@ if [[ $free_space -ge 98 ]];then
 	 -th none \
 	 -o tmp.jpg
 
+	# set privacy mask (25 or 50 % of the image)
+	if [ $privacy == 25 ]; then
+		convert tmp.jpg -fill blue -stroke blue -draw "rectangle 0,729 1296,972" tmp_private.jpg 
+	elif [ $privacy == 50 ]; then
+		convert tmp.jpg -fill blue -stroke blue -draw "rectangle 0,486 1296,972" tmp_private.jpg 
+	else
+		cp tmp.jpg tmp_private.jpg
+	fi
+
 	# collect data for the image header, site, date, exposure, white balance
 	label=`echo $site - $camera - $header_date`
 	exposure=`exif tmp.jpg | grep "Exposure Time" | cut -d'|' -f2`
@@ -71,7 +77,10 @@ if [[ $free_space -ge 98 ]];then
 		  label.gif
 
 	# paste the header on top of the original image (latest.jpg)
-	composite -gravity northwest ~/label.gif ~/tmp.jpg ~/latest.jpg
+	composite -gravity northwest ~/label.gif ~/tmp_private.jpg ~/latest.jpg
+
+	# get weather data
+	weather_string=$(get_weather)
 
 	# use exif rather than the raspistill code to fill up the 'Image Description' EXIF tag
 	# results with raspistill vary / exif needs full paths in file input - output
@@ -84,6 +93,7 @@ if [[ $free_space -ge 98 ]];then
 	# remove temporary files
 	rm ~/label.gif
 	rm ~/tmp.jpg
+	rm ~/tmp_private.jpg
 
 	# first test the connection to the phenocam server
 	connection=`ping -q -W 1 -c 1 phenocam.sr.unh.edu > /dev/null && echo ok || echo error`
@@ -99,7 +109,7 @@ if [[ $free_space -ge 98 ]];then
 		# in rsync fashion.
 		# TODO: change to final phenocam server later
 		#lftp ftp://anonymous:anonymous@klima.sr.unh.edu -e "mirror --verbose --reverse --Remove-source-files ./ ./phenocam ;quit"
-		lftp ftp://anonymous:anonymous@140.247.98.64 -e "mirror --verbose --reverse --Remove-source-files ./ ./phenocam ;quit"
+		#lftp ftp://anonymous:anonymous@140.247.98.64 -e "mirror --verbose --reverse --Remove-source-files ./ ./phenocam ;quit"
 
 	fi
 fi
