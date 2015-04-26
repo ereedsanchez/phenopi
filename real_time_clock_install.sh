@@ -51,6 +51,9 @@ else
 		tzone=`echo "$time_offset" | sed 's/+/-/g'`
 	fi
 
+	# some feedback
+	echo "we are in time zone $tzone"
+
 	# set the time zone, time will be set by the NTP server
 	# if online
 	`echo sudo ln -sf /usr/share/zoneinfo/Etc/GMT$tzone /etc/localtime`
