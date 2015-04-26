@@ -10,7 +10,7 @@ sudo ln -s /usr/include/linux/videodev2.h /usr/include/linux/videodev.h
 # download the mjpeg streamer daemon
 # and unzip the file
 wget http://sourceforge.net/code-snapshots/svn/m/mj/mjpg-streamer/code/mjpg-streamer-code-182.zip
-unzip mjpg-streamer-code-182.zip
+unzip -f mjpg-streamer-code-182.zip
 
 # enter the unzipped directory and compile the
 # necessary parts
@@ -24,6 +24,6 @@ sudo cp -R www /usr/local/www
 
 # clean up the compilation directory
 cd ../../
-rm -rf mjpg-streamer-182
+rm -rf mjpg-streamer-code-182*
 
 #LD_LIBRARY_PATH=/usr/local/lib mjpg_streamer -i "input_file.so -f /tmp/stream -n pic.jpg" -o "output_http.so -w /usr/local/www"

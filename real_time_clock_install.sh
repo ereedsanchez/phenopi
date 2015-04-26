@@ -7,8 +7,10 @@
 # 
 # requirements: an internet connection
 
-# set default password
-password="raspberry"
+
+# check if we have a real time clock (RTC)
+# i2c device (only check the bus 1 - newer pi s) 	
+#rtc_present=$(sudo i2cdetect -y 1 | grep UU | wc -l)
 
 # first test the connection to the google name server
 connection=`ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error`
@@ -48,13 +50,11 @@ else
 
 	# swap the sign of the offset to 
 	# convert the sign from the UTC time zone TZ variable (for plotting in overlay)
-	if [ "$sign" = "+" ]; then
-		tzone=`echo "$time_offset" | sed 's/-/+/g'`
-	else
+	if [ "$sign" == "+" ]; then
 		tzone=`echo "$time_offset" | sed 's/+/-/g'`
+	else
+		tzone=`echo "$time_offset" | sed 's/-/+/g'`
 	fi
-
-	tzone=`echo $time_offset`
 
 	# some feedback
 	echo "we are in time zone $tzone"
@@ -63,15 +63,12 @@ else
 	# if online
 	`echo sudo ln -sf /usr/share/zoneinfo/Etc/GMT$tzone /etc/localtime`
 
-	# install all necessary packages
-	echo $password | sudo -Sk apt-get -y install i2c-tools
-	echo $password | sudo -Sk apt-get -y install libi2c-dev
-	echo $password | sudo -Sk apt-get -y install python-smbus
-
-
-	# check if we have a real time clock (RTC)
-	# i2c device (only check the bus 1 - newer pi s) 	
-	rtc_present=$(echo $password | sudo i2cdetect -y 1 | grep UU | wc -l)
+	# install necessary packages
+	sudo apt-get -y install i2c-tools
+	
+	# remove the fake hw-clock
+	sudo apt-get -y remove fake-hwclock
+	sudo update-rc.d fake-hwclock remove
 
 	# So check if the boot config is up to date,
 	# if so continue to check if there is a RTC
@@ -104,6 +101,8 @@ else
 	fi
 
 fi
+
+echo "Please reboot to complete the installation!"
 
 exit 0
 
