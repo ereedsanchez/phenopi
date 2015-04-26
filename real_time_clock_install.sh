@@ -54,6 +54,8 @@ else
 		tzone=`echo "$time_offset" | sed 's/+/-/g'`
 	fi
 
+	tzone=`echo $time_offset`
+
 	# some feedback
 	echo "we are in time zone $tzone"
 
