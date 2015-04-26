@@ -20,6 +20,9 @@ if [[ $connection != "ok" ]];then
 	exit 1
 else
 
+	# some feedback
+	echo "We are online"
+
 	# determine the pi's external ip address
 	current_ip=$(curl -s ifconfig.me)
 
