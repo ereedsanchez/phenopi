@@ -7,11 +7,6 @@
 # 
 # requirements: an internet connection
 
-
-# check if we have a real time clock (RTC)
-# i2c device (only check the bus 1 - newer pi s) 	
-#rtc_present=$(sudo i2cdetect -y 1 | grep UU | wc -l)
-
 # first test the connection to the google name server
 connection=`ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error`
 
