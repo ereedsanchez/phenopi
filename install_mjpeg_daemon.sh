@@ -3,6 +3,10 @@
 # install the mjpeg streamer
 # for an active view of the camera
 
+# clean up previous code, if rerunning install on crash etc.
+# if they exist
+rm -rf mjpg-streamer-code-182* > /dev/null 2>&1
+
 # install necessary libraries
 sudo apt-get install libjpeg8-dev imagemagick libv4l-dev
 sudo ln -s /usr/include/linux/videodev2.h /usr/include/linux/videodev.h
@@ -10,7 +14,9 @@ sudo ln -s /usr/include/linux/videodev2.h /usr/include/linux/videodev.h
 # download the mjpeg streamer daemon
 # and unzip the file
 wget http://sourceforge.net/code-snapshots/svn/m/mj/mjpg-streamer/code/mjpg-streamer-code-182.zip
-unzip -f mjpg-streamer-code-182.zip
+
+# unzip downloaded file
+unzip mjpg-streamer-code-182.zip
 
 # enter the unzipped directory and compile the
 # necessary parts
