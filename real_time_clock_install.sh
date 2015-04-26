@@ -56,7 +56,10 @@ else
 	`echo sudo ln -sf /usr/share/zoneinfo/Etc/GMT$tzone /etc/localtime`
 
 	# install all necessary packages
-	echo $password | sudo -Sk apt-get -y install i2c-tools libi2c-dev python-smbus
+	echo $password | sudo -Sk apt-get -y install i2c-tools
+	echo $password | sudo -Sk apt-get -y install libi2c-dev
+	echo $password | sudo -Sk apt-get -y install python-smbus
+
 
 	# check if we have a real time clock (RTC)
 	# i2c device (only check the bus 1 - newer pi s) 	
