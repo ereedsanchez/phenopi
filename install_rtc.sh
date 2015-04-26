@@ -75,8 +75,8 @@ else
 
 	if [[ i2c == 0 && rtc == 0 ]]; then
 		# adjust config.txt
-		sudo cat "dtparam=i2c1=on" >> /boot/config.txt
-		sudo cat "dtparam=i2c_arm=on" >> /boot/config.txt
+		sudo echo "dtparam=i2c1=on" >> /boot/config.txt
+		sudo echo "dtparam=i2c_arm=on" >> /boot/config.txt
 	fi
 
 	i2c=`grep "i2c" /etc/modules | wc -l`
@@ -84,9 +84,9 @@ else
 
 	if [[ i2c == 0 && rtc == 0 ]]; then
 		# add modules to /etc/modules
-		sudo cat "i2c-bcm2708" >> /etc/modules
-		sudo cat "i2c-dev" >> /etc/modules
-		sudo cat "rtc-ds1307" >> /etc/modules
+		sudo echo "i2c-bcm2708" >> /etc/modules
+		sudo echo "i2c-dev" >> /etc/modules
+		sudo echo "rtc-ds1307" >> /etc/modules
 	fi
 
 	# If there is no RTC clock, set time zone

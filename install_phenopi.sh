@@ -57,7 +57,7 @@ else
 
 	# set the time zone, time will be set by the NTP server
 	# if online
-	`echo sudo ln -sf /usr/share/zoneinfo/Etc/GMT$tzone /etc/localtime`
+	sudo ln -sf /usr/share/zoneinfo/Etc/GMT$tzone /etc/localtime
 
 	# feedback
 	echo "installing the necessary software"
