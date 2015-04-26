@@ -59,11 +59,11 @@ else
 	`echo sudo ln -sf /usr/share/zoneinfo/Etc/GMT$tzone /etc/localtime`
 
 	# install necessary packages
-	sudo apt-get -y install i2c-tools
+	sudo apt-get -y install i2c-tools > /dev/null 2>&1
 	
 	# remove the fake hw-clock
-	sudo apt-get -y remove fake-hwclock
-	sudo update-rc.d fake-hwclock remove
+	sudo apt-get -y remove fake-hwclock > /dev/null 2>&1
+	sudo update-rc.d fake-hwclock remove > /dev/null 2>&1
 
 	# So check if the boot config is up to date,
 	# if so continue to check if there is a RTC

@@ -76,10 +76,10 @@ else
 	./install_mjpeg_daemon.sh
 
 	# copy the new index.html to the default web server directory
-	sudo mv index.html /var/www/
+	#sudo mv index.html /var/www/
 
 	# set crontab file
-	init script on startup
+	#init script on startup
 
 fi
 
