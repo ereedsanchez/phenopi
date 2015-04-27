@@ -62,9 +62,9 @@ if [[ $free_space -ge 98 ]];then
 	 -o $path/tmp.jpg
 
 	# set privacy mask (25 or 50 % of the image)
-	if [ $privacy == 25 ]; then
+	if [[ $privacy == "25" ]]; then
 		convert $path/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,729 1296,972" tmp_private.jpg 
-	elif [ $privacy == 50 ]; then
+	elif [[ $privacy == "50" ]]; then
 		convert $path/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,486 1296,972" tmp_private.jpg 
 	else
 		cp $path/tmp.jpg $path/tmp_private.jpg
