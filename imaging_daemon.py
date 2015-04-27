@@ -15,6 +15,9 @@ rtc=check_output("sudo i2cdetect -y 1 | grep UU | wc -l",shell=True)
 # test the connection to the google name server
 connection=check_output("ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error",shell=True)
 
+print connection
+print rtc
+
 # if we have a connection to the net and there is a hwclock
 # update the hwclock. The internet connection is necessary to
 # update the software clock using an NTP server. If there is
@@ -38,11 +41,11 @@ while True:
 	if any(s == currentMinute for s in interval) and currentMinute and currentHour < 22 and currentHour > 4 :
 	
 		# upload a phenopi image
-		call("/home/pi/phenopi/./upload_image.sh")
+		call("/home/pi/phenopi/./upload_image.sh",shell=True)
 		
 		# wait a minute, otherwise we duplicate uploads
 		sleep(60)
 	else:
 		# if no phenopi image is taken update the streaming
 		# jpeg source
-		call("raspistill -n -w 640 -h 480 -q 5 -o /tmp/stream/pic.jpg > /dev/null 2>&1")
+		call("raspistill -n -w 640 -h 480 -q 5 -o /tmp/stream/pic.jpg > /dev/null 2>&1",shell=True)
