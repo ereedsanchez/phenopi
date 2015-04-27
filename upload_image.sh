@@ -77,7 +77,7 @@ if [[ $free_space -ge 98 ]];then
 	# create a header with the site description and exposure value
 	convert -background blue -fill white \
 		  -pointsize 24 label:"$label\nExposure: $exposure" \
-		  label.gif
+		  $path/label.gif
 
 	# paste the header on top of the original image (latest.jpg)
 	composite -gravity northwest $path/label.gif $path/tmp_private.jpg $path/latest.jpg
@@ -87,11 +87,11 @@ if [[ $free_space -ge 98 ]];then
 
 	# use exif rather than the raspistill code to fill up the 'Image Description' EXIF tag
 	# results with raspistill vary / exif needs full paths in file input - output
-	exif --output=/home/pi/phenocam_images/${site}_${file_date}.jpg --ifd=0 --tag=0x010e --set-value="$weather_string" --no-fixup /home/pi/latest.jpg
+	exif --output=$path/phenocam_images/${site}_${file_date}.jpg --ifd=0 --tag=0x010e --set-value="$weather_string" --no-fixup $path/latest.jpg
 
 	# for debugging purposes copy latest image back into the home directory
 	# if online no data will be saved on the device, safe for this image!
-	cp /home/pi/phenocam_images/${site}_${file_date}.jpg /home/pi/latest.jpg
+	cp $path/phenocam_images/${site}_${file_date}.jpg $path/latest.jpg
 
 	# remove temporary files
 	rm $path/label.gif
