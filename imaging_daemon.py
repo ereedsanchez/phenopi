@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-import datetime from datetime
-import call,check_output from subprocess
-import sleep from time
+from datetime import datetime
+from subprocess import call, check_output
+from time import sleep
 
 # set the image acquisition interval
 # fixed at a half hourly rate
