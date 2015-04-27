@@ -42,8 +42,7 @@ while true:
 		
 		# wait a minute, otherwise we duplicate uploads
 		sleep(60)
-	else
+	else:
 		# if no phenopi image is taken update the streaming
 		# jpeg source
 		call("raspistill -n -w 640 -h 480 -q 5 -o /tmp/stream/pic.jpg > /dev/null 2>&1")
-	fi
