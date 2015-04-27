@@ -9,6 +9,9 @@
 # I adapted his bash_weather.sh code to create
 # my own weather extraction routines.
 
+# set home path
+path="/home/pi"
+
 # load the weather library
 source get_weather.sh
 
@@ -28,8 +31,8 @@ header_date=$(date +"%a %b %d %Y %H:%M:%S %Z")
 
 # check if the output directory exists
 # if not create it!
-if [ ! -d ~/phenocam_images ]; then
-  mkdir ~/phenocam_images
+if [ ! -d ~/phenopi_images ]; then
+  mkdir ~/phenopi_images
 fi
 
 # check if there is still space left to store pictures
@@ -56,15 +59,15 @@ if [[ $free_space -ge 98 ]];then
 	 -x EXIF.WhiteBalance=1 \
 	 --ISO 100 \
 	 -th none \
-	 -o tmp.jpg
+	 -o $path/tmp.jpg
 
 	# set privacy mask (25 or 50 % of the image)
 	if [ $privacy == 25 ]; then
-		convert tmp.jpg -fill blue -stroke blue -draw "rectangle 0,729 1296,972" tmp_private.jpg 
+		convert ~/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,729 1296,972" tmp_private.jpg 
 	elif [ $privacy == 50 ]; then
-		convert tmp.jpg -fill blue -stroke blue -draw "rectangle 0,486 1296,972" tmp_private.jpg 
+		convert ~/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,486 1296,972" tmp_private.jpg 
 	else
-		cp tmp.jpg tmp_private.jpg
+		cp ~/tmp.jpg ~/tmp_private.jpg
 	fi
 
 	# collect data for the image header, site, date, exposure, white balance

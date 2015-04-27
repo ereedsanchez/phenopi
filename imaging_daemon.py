@@ -15,15 +15,12 @@ rtc=check_output("sudo i2cdetect -y 1 | grep UU | wc -l",shell=True)
 # test the connection to the google name server
 connection=check_output("ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error",shell=True)
 
-print connection
-print rtc
-
 # if we have a connection to the net and there is a hwclock
 # update the hwclock. The internet connection is necessary to
 # update the software clock using an NTP server. If there is
 # no network this makes not sense
 if rtc == "1" and connection == "ok" :
-	call("sudo hwclock -w")
+	call("sudo hwclock -w",shell=True)
 
 
 # create infinite imaging loop!
