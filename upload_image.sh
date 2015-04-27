@@ -13,7 +13,7 @@
 path="/home/pi"
 
 # load the weather library
-source get_weather.sh
+source $path/phenopi/get_weather.sh
 
 # camera type
 camera="PhenoPi"
@@ -31,8 +31,8 @@ header_date=$(date +"%a %b %d %Y %H:%M:%S %Z")
 
 # check if the output directory exists
 # if not create it!
-if [ ! -d ~/phenopi_images ]; then
-  mkdir ~/phenopi_images
+if [ ! -d $path/phenopi_images ]; then
+  mkdir $path/phenopi_images
 fi
 
 # check if there is still space left to store pictures
@@ -63,11 +63,11 @@ if [[ $free_space -ge 98 ]];then
 
 	# set privacy mask (25 or 50 % of the image)
 	if [ $privacy == 25 ]; then
-		convert ~/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,729 1296,972" tmp_private.jpg 
+		convert $path/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,729 1296,972" tmp_private.jpg 
 	elif [ $privacy == 50 ]; then
-		convert ~/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,486 1296,972" tmp_private.jpg 
+		convert $path/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,486 1296,972" tmp_private.jpg 
 	else
-		cp ~/tmp.jpg ~/tmp_private.jpg
+		cp $path/tmp.jpg $path/tmp_private.jpg
 	fi
 
 	# collect data for the image header, site, date, exposure, white balance
@@ -80,7 +80,7 @@ if [[ $free_space -ge 98 ]];then
 		  label.gif
 
 	# paste the header on top of the original image (latest.jpg)
-	composite -gravity northwest ~/label.gif ~/tmp_private.jpg ~/latest.jpg
+	composite -gravity northwest $path/label.gif $path/tmp_private.jpg $path/latest.jpg
 
 	# get weather data
 	weather_string=$(get_weather)
@@ -94,9 +94,9 @@ if [[ $free_space -ge 98 ]];then
 	cp /home/pi/phenocam_images/${site}_${file_date}.jpg /home/pi/latest.jpg
 
 	# remove temporary files
-	rm ~/label.gif
-	rm ~/tmp.jpg
-	rm ~/tmp_private.jpg
+	rm $path/label.gif
+	rm $path/tmp.jpg
+	rm $path/tmp_private.jpg
 
 	# first test the connection to the phenocam server
 	connection=`ping -q -W 1 -c 1 phenocam.sr.unh.edu > /dev/null && echo ok || echo error`
@@ -105,7 +105,7 @@ if [[ $free_space -ge 98 ]];then
 	if [[ $connection == "ok" ]];then
 
 		# move into the directory that holds all images
-		cd ~/phenocam_images
+		cd $path/phenocam_images
 
 		# move all images to the server, delete the images on success
 		# we use lftp, this enables me to upload images in bulk and
