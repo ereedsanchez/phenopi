@@ -19,7 +19,7 @@ source $path/phenopi/get_weather.sh
 camera="PhenoPi"
 
 # set site name
-site=$1
+site="test"
 
 # set privacy
 privacy=$2
@@ -72,7 +72,7 @@ if [[ $free_space -ge 98 ]];then
 
 	# collect data for the image header, site, date, exposure, white balance
 	label=`echo $site - $camera - $header_date`
-	exposure=`exif tmp.jpg | grep "Exposure Time" | cut -d'|' -f2`
+	exposure=`exif $path/tmp.jpg | grep "Exposure Time" | cut -d'|' -f2`
 
 	# create a header with the site description and exposure value
 	convert -background blue -fill white \
@@ -105,7 +105,7 @@ if [[ $free_space -ge 98 ]];then
 	if [[ $connection == "ok" ]];then
 
 		# move into the directory that holds all images
-		cd $path/phenocam_images
+		cd $path/phenopi_images
 
 		# move all images to the server, delete the images on success
 		# we use lftp, this enables me to upload images in bulk and
