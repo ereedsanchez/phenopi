@@ -27,7 +27,7 @@ if rtc == "1" and connection == "ok" :
 # if it's not time to take an image to upload
 # update the image stream for the mjpg streamer
 # webpage at /tmp/stream/pic.jpg
-while true:
+while True:
 
 	# grap current time
 	currentMinute = datetime.now().minute
