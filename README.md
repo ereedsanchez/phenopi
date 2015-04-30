@@ -1,4 +1,4 @@
-## PhenoPi
+# PhenoPi
 
 The current collection of scripts is rough around the edges and a work in progress.
 
@@ -9,4 +9,22 @@ The latter scripts installs the website interface and the real time clock (if av
 Currently the install\_mjpeg\_install.sh works but needs work on installing the startup parameters.
 
 The overall script is still a mess.
+
+## Installation
+
+clone the project to your home computer using the following command (with git installed)
+
+	git clone https://khufkens@bitbucket.org/khufkens/phenopi.git
+
+alternatively, download the project using [this link](https://bitbucket.org/khufkens/phenopi/get/master.zip).
+
+Unzip the downloaded files or use the files cloned by git as is.
+
+## Use
+
+
+
+
+## Notes
+
 
