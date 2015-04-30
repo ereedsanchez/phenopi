@@ -1,6 +1,6 @@
 ## PhenoPi
 
-The current collectin is rough around the edges and a work in progress.
+The current collection of scripts is rough around the edges and a work in progress.
 
 In theory there would be 3 scripts to run. One overall script called install_phenopoi.sh and two others called by it, mainly install\_mjpeg\_daemon.sh and install\_rtc.sh.
 
