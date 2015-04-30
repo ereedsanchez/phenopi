@@ -72,6 +72,9 @@ else
 	sudo apt-get -y install exif # install exif library 
 	sudo apt-get -y install xrdp # remote graphical login
 
+lftp
+i2c
+
 	# install mjpeg streamer
 	./install_mjpeg_daemon.sh
 

@@ -7,7 +7,8 @@ from time import sleep
 # set the image acquisition interval
 # fixed at a half hourly rate
 interval=[0,30]
-  
+
+# startup requirements -----------------------  
 # check if we have a real time clock (RTC)
 # i2c device (only check the bus 1 - newer pi s) 	
 rtc=check_output("sudo i2cdetect -y 1 | grep UU | wc -l",shell=True)
@@ -21,7 +22,7 @@ connection=check_output("ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || ech
 # no network this makes not sense
 if rtc == "1" and connection == "ok" :
 	call("sudo hwclock -w",shell=True)
-
+#----------------------------------------------
 
 # create infinite imaging loop!
 # if it's not time to take an image to upload
@@ -35,7 +36,7 @@ while True:
 
 	# routine to grab gpio status and time the duration of the pulse
 
-	if any(s == currentMinute for s in interval) and currentMinute and currentHour < 22 and currentHour > 4 :
+	if any(s == currentMinute for s in interval) and currentHour < 22 and currentHour > 4 :
 	
 		# upload a phenopi image
 		call("/home/pi/phenopi/./upload_image.sh",shell=True)
@@ -45,4 +46,4 @@ while True:
 	else:
 		# if no phenopi image is taken update the streaming
 		# jpeg source
-		call("raspistill -n -w 640 -h 480 -q 5 -o /tmp/stream/pic.jpg > /dev/null 2>&1",shell=True)
+		call("raspistill -n -w 640 -h 480 -q 95 -t 500 -th none -o /tmp/stream/pic.jpg > /dev/null 2>&1",shell=True)

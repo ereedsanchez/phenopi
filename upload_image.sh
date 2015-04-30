@@ -57,7 +57,7 @@ if [[ $free_space -ge 98 ]];then
 	 -vf -hf \
 	 -t 500 \
 	 -x EXIF.WhiteBalance=1 \
-	 --ISO 100 \
+	 -ex night \ 
 	 -th none \
 	 -o $path/tmp.jpg
 
@@ -87,11 +87,12 @@ if [[ $free_space -ge 98 ]];then
 
 	# use exif rather than the raspistill code to fill up the 'Image Description' EXIF tag
 	# results with raspistill vary / exif needs full paths in file input - output
-	exif --output=$path/phenocam_images/${site}_${file_date}.jpg --ifd=0 --tag=0x010e --set-value="$weather_string" --no-fixup $path/latest.jpg
+	exif --output=$path/phenopi_images/${site}_${file_date}.jpg --ifd=0 --tag=0x010e --set-value="$weather_string" --no-fixup $path/latest.jpg
 
 	# for debugging purposes copy latest image back into the home directory
 	# if online no data will be saved on the device, safe for this image!
-	cp $path/phenocam_images/${site}_${file_date}.jpg $path/latest.jpg
+	cp $path/phenopi_images/${site}_${file_date}.jpg $path/latest.jpg
+	sudo cp $path/latest.jpg /usr/local/www
 
 	# remove temporary files
 	rm $path/label.gif
