@@ -19,10 +19,10 @@ source $path/phenopi/get_weather.sh
 camera="PhenoPi"
 
 # set site name
-site="test"
+site=$( awk -v p=1 'NR==p' /home/pi/phenopi/config.txt)
 
 # set privacy
-privacy=$2
+privacy=$( awk -v p=2 'NR==p' /home/pi/phenopi/config.txt)
 
 # grab the current time / date
 # for the image name as well as the header
