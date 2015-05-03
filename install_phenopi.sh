@@ -19,7 +19,8 @@ else
 
 	# some feedback
 	echo "We are online"
-
+	echo "-- looking up time zone"
+	
 	# determine the pi's external ip address
 	current_ip=$(curl -s ifconfig.me)
 
@@ -87,7 +88,11 @@ else
 	sudo mv -f /home/pi/phenopi/imaging_daemon.py /etc/init.d/
 
 	# add to rc.local startup
-	sudo echo "/etc/init.d/imaging_daemon.py" >> /etc/rc.local
+	sudo chmod a+rw /etc/rc.local
+
+	sudo cat /etc/rc.local | sed 's/exit 0/\/etc\/init.d\/mjpeg_daemon.py \n exit 0/' > /etc/rc.local
+
+	sudo chmod a-w /etc/rc.local
 
 	# make scratch disk memory only
 	echo "tmpfs /tmp tmpfs nodev,nosuid,size=50M 0 0" >> /etc/fstab
