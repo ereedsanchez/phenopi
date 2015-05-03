@@ -27,7 +27,20 @@ privacy=$( awk -v p=2 'NR==p' /home/pi/phenopi/config.txt)
 # grab the current time / date
 # for the image name as well as the header
 file_date=$(date +"%Y_%m_%d_%H%M%S")
-header_date=$(date +"%a %b %d %Y %H:%M:%S %Z")
+
+
+# get time zone sign
+sign=$(date +"%Z" | )
+
+# convert the sign from the UTC time zone TZ variable (for plotting in overlay)
+if [ "$sign" = "+" ]; then
+        tzone=`date +"%Z" | sed 's/-/+/g'`
+else
+        tzone=`date +"%Z" | sed 's/+/-/g'`
+fi
+
+# format header
+header_date=$(echo `date +"%a %b %d %Y %H:%M:%S"` $tzone)
 
 # check if the output directory exists
 # if not create it!
@@ -57,22 +70,22 @@ if [[ $free_space -ge 98 ]];then
 	 -vf -hf \
 	 -t 500 \
 	 -x EXIF.WhiteBalance=1 \
-	 -ex night \ 
+	 -ex night \
 	 -th none \
 	 -o $path/tmp.jpg
 
 	# set privacy mask (25 or 50 % of the image)
-	if [[ $privacy == "25" ]]; then
+	if [[ "$privacy" == "25" ]]; then
 		convert $path/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,729 1296,972" tmp_private.jpg 
-	elif [[ $privacy == "50" ]]; then
+	elif [[ "$privacy" == "50" ]]; then
 		convert $path/tmp.jpg -fill blue -stroke blue -draw "rectangle 0,486 1296,972" tmp_private.jpg 
 	else
 		cp $path/tmp.jpg $path/tmp_private.jpg
 	fi
 
 	# collect data for the image header, site, date, exposure, white balance
-	label=`echo $site - $camera - $header_date`
-	exposure=`exif $path/tmp.jpg | grep "Exposure Time" | cut -d'|' -f2`
+	label=$(echo ${site} - ${camera} - ${header_date})
+	exposure=$(exif $path/tmp.jpg | grep "Exposure Time" | cut -d'|' -f2 )
 
 	# create a header with the site description and exposure value
 	convert -background blue -fill white \
@@ -103,7 +116,7 @@ if [[ $free_space -ge 98 ]];then
 	connection=`ping -q -W 1 -c 1 phenocam.sr.unh.edu > /dev/null && echo ok || echo error`
 
 	# If the connection is up, upload all images to the server (old and new)
-	if [[ $connection == "ok" ]];then
+	if [[ "$connection" == "ok" ]];then
 
 		# move into the directory that holds all images
 		cd $path/phenopi_images
