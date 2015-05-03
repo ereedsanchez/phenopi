@@ -84,18 +84,7 @@ else
 	# feedback
 	echo "configuring the system"
 
-	# move startup script into the init dir
-	sudo mv -f /home/pi/phenopi/imaging_daemon.py /etc/init.d/
-
-	# add to rc.local startup
-	sudo chmod a+rw /etc/rc.local
-	sudo cat /etc/rc.local | sed 's/exit 0/\/etc\/init.d\/mjpeg_daemon.py \n exit 0/' > /etc/rc.local
-	sudo chmod a-w /etc/rc.local
-	
-	# make scratch disk memory only
-	sudo chmod a+rw /etc/fstab
-	echo "tmpfs /tmp tmpfs nodev,nosuid,size=50M 0 0" >> /etc/fstab
-	sudo chmod a-w /etc/fstab
+	crontab /home/pi/phenopi/crontab.txt
 	
 	# feedback
 	echo "Done, rebooting the system"
