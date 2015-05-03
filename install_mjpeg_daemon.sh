@@ -27,17 +27,22 @@ make mjpg_streamer input_file.so output_http.so > /dev/null 2>&1
 sudo cp mjpg_streamer /usr/local/bin
 sudo cp output_http.so input_file.so /usr/local/lib/
 sudo cp -R www /usr/local/www
-mkdir /tmp/stream
 
 # clean up the compilation directory
 cd ../../
 rm -rf mjpg-streamer-code-182*
 
 # move simple index.html in place
-sudo mv /home/pi/phenopi/index.html /usr/local/www
+sudo mv -f /home/pi/phenopi/index.html /usr/local/www
+
+# move startup script into the init dir
+sudo mv -f /home/pi/phenopi/mjpeg_daemon.sh /etc/init.d/
+
+# add to rc.local startup
+sudo echo "/etc/init.d/mjpeg_daemon.sh" >> /etc/rc.local
 
 # feedback
 echo "installed the mjpeg streamer!"
 
 # start daemon
-LD_LIBRARY_PATH=/usr/local/lib mjpg_streamer -i "input_file.so -f /tmp/stream -n pic.jpg" -o "output_http.so -w /usr/local/www"
+#LD_LIBRARY_PATH=/usr/local/lib mjpg_streamer -i "input_file.so -f /tmp/stream -n pic.jpg" -o "output_http.so -w /usr/local/www"

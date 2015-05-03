@@ -7,7 +7,6 @@
 # Install necessary packages using default raspberry pi password!
 # Please change the default password after the installation.
 
-
 # first test the connection to the google name server
 connection=`ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error`
 
@@ -67,22 +66,32 @@ else
 	sudo apt-get -y upgrade
 	sudo apt-get -y clean
 
-	# install all packages
+	# install all packages we need
 	sudo apt-get -y install imagemagick # image manipulation software
 	sudo apt-get -y install exif # install exif library 
 	sudo apt-get -y install xrdp # remote graphical login
+	sudo apt-get -y install lftp # ftp program with rsync qualities
 
-lftp
-i2c
+	# feedback
+	echo "installing the mjpeg streamer software"
 
 	# install mjpeg streamer
-	./install_mjpeg_daemon.sh
+	/home/pi/phenopi/./install_mjpeg_daemon.sh
 
-	# copy the new index.html to the default web server directory
-	#sudo mv index.html /var/www/
+	# feedback
+	echo "configuring the system"
 
-	# set crontab file
-	#init script on startup
+	# move startup script into the init dir
+	sudo mv -f /home/pi/phenopi/imaging_daemon.py /etc/init.d/
+
+	# add to rc.local startup
+	sudo echo "/etc/init.d/imaging_daemon.py" >> /etc/rc.local
+
+	# make scratch disk memory only
+	echo "tmpfs /tmp tmpfs nodev,nosuid,size=50M 0 0" >> /etc/fstab
+
+	# reboot
+	#sudo reboot
 
 fi
 
