@@ -41,7 +41,7 @@ else
 		grep -o -P -i "(?<=<offset>).*(?=</offset>)")
 
 	# feedback
-	echo "setting the time zone for: GMT${time_offset}
+	echo "setting the time zone for: GMT${time_offset}"
 
 	# grab the sign of the time_offset
 	sign=`echo $time_offset | cut -c'1'`
@@ -60,20 +60,22 @@ else
 
 	# feedback
 	echo "installing the necessary software"
+	echo "-- this might take a while, go get coffee"
 
 	# update the system
-	sudo apt-get -y update
-	sudo apt-get -y upgrade
-	sudo apt-get -y clean
+	sudo apt-get -y update > /dev/null 2>&1
+	sudo apt-get -y upgrade > /dev/null 2>&1
+	sudo apt-get -y clean > /dev/null 2>&1
 
 	# install all packages we need
-	sudo apt-get -y install imagemagick # image manipulation software
-	sudo apt-get -y install exif # install exif library 
-	sudo apt-get -y install xrdp # remote graphical login
-	sudo apt-get -y install lftp # ftp program with rsync qualities
+	sudo apt-get -y install imagemagick > /dev/null 2>&1 # image manipulation software
+	sudo apt-get -y install exif > /dev/null 2>&1 # install exif library 
+	sudo apt-get -y install xrdp > /dev/null 2>&1 # remote graphical login
+	sudo apt-get -y install lftp > /dev/null 2>&1 # ftp program with rsync qualities
 
 	# feedback
 	echo "installing the mjpeg streamer software"
+	echo "-- give it some time"
 
 	# install mjpeg streamer
 	/home/pi/phenopi/./install_mjpeg_daemon.sh
@@ -90,9 +92,11 @@ else
 	# make scratch disk memory only
 	echo "tmpfs /tmp tmpfs nodev,nosuid,size=50M 0 0" >> /etc/fstab
 
+	# feedback
+	echo "Done, rebooting the system"
+
 	# reboot
 	#sudo reboot
-
 fi
 
 # exit

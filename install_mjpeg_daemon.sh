@@ -38,8 +38,13 @@ sudo mv -f /home/pi/phenopi/index.html /usr/local/www
 # move startup script into the init dir
 sudo mv -f /home/pi/phenopi/mjpeg_daemon.sh /etc/init.d/
 
+# make rc.local editable
+sudo chmod a+rw /etc/rc.local
+
 # add to rc.local startup
-sudo echo "/etc/init.d/mjpeg_daemon.sh" >> /etc/rc.local
+sudo cat /etc/rc.local | sed 's/exit 0/\/etc\/init.d\/mjpeg_daemon.sh \n exit 0/' > /etc/rc.local
+
+sudo chmod a-w /etc/rc.local
 
 # feedback
 echo "installed the mjpeg streamer!"
