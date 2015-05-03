@@ -18,13 +18,21 @@ all files will be cloned into a directory called phenopi
 
 To run the basic install using the following command
 
-	sh /home/pi/phenopi/install_phenopi.sh
+	sh /home/pi/phenopi/install_phenopi.sh site_name privacy_value
 	
 or
 
-	./install_phenopi.sh
+	./install_phenopi.sh site_name privacy_value
 
 in the /home/pi/phenopi directory
+
+with:
+
+Parameter     | Description                    	
+------------- | ------------------------------ 	
+site_name	      | the name of the site (no spaces allowed)
+privacy_value	      | How much of the bottom of the image in % do you want to see removed (0, 25 or 50 are accepted values, default is 0)
+
 
 After the installation your camera should be up and running and you should be able to find a website displaying constantly updating image at
 

@@ -7,6 +7,19 @@
 # Install necessary packages using default raspberry pi password!
 # Please change the default password after the installation.
 
+# read command line parameters
+if [ -n "$1" ]; then
+	echo $1 > /home/pi/phenopi/config.txt
+else
+	echo "default" > /home/pi/phenopi/config.txt
+fi
+
+if [ -n "$2" ]; then
+	echo $1 > /home/pi/phenopi/config.txt
+else
+ 	echo 0 > /home/pi/phenopi/config.txt
+fi
+
 # first test the connection to the google name server
 connection=`ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error`
 
