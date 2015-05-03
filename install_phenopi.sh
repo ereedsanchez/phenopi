@@ -89,14 +89,14 @@ else
 
 	# add to rc.local startup
 	sudo chmod a+rw /etc/rc.local
-
 	sudo cat /etc/rc.local | sed 's/exit 0/\/etc\/init.d\/mjpeg_daemon.py \n exit 0/' > /etc/rc.local
-
 	sudo chmod a-w /etc/rc.local
-
+	
 	# make scratch disk memory only
+	sudo chmod a+rw /etc/fstab
 	echo "tmpfs /tmp tmpfs nodev,nosuid,size=50M 0 0" >> /etc/fstab
-
+	sudo chmod a-w /etc/fstab
+	
 	# feedback
 	echo "Done, rebooting the system"
 

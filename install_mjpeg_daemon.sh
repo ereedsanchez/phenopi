@@ -40,14 +40,8 @@ sudo mv -f /home/pi/phenopi/mjpeg_daemon.sh /etc/init.d/
 
 # make rc.local editable
 sudo chmod a+rw /etc/rc.local
-
-# add to rc.local startup
 sudo cat /etc/rc.local | sed 's/exit 0/\/etc\/init.d\/mjpeg_daemon.sh \n exit 0/' > /etc/rc.local
-
 sudo chmod a-w /etc/rc.local
 
 # feedback
 echo "installed the mjpeg streamer!"
-
-# start daemon
-#LD_LIBRARY_PATH=/usr/local/lib mjpg_streamer -i "input_file.so -f /tmp/stream -n pic.jpg" -o "output_http.so -w /usr/local/www"
