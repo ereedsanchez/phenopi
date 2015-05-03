@@ -1,2 +1,2 @@
-@reboot mjpg_streamer -i "/usr/local/lib/input_file.so -f /tmp -n pic.jpg" -o "output_http.so -w /usr/local/www" &
-@reboot imaging_daemon.py &
+@reboot /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_file.so -f /tmp -n pic.jpg" -o "/usr/local/lib/output_http.so -w /usr/local/www" &
+@reboot python /home/pi/phenopi/imaging_daemon.py &
