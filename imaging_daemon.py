@@ -1,28 +1,33 @@
 #!/usr/bin/python
 
+# load libraries
+import RPi.GPIO as GPIO
 from datetime import datetime
 from subprocess import call, check_output
 from time import sleep
 
+# set gpio pins
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(24, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+
+# setup a callback function to take a picture when
+# the button is pressed
+def startTime(channel):
+        global sec
+        # waiting for button release
+        sec = 0
+        while (GPIO.input(24) == GPIO.LOW):
+
+                # delay for debouncing
+                sleep(0.2)
+                sec += 0.2
+
+# intiate callback function
+GPIO.add_event_detect(24, GPIO.FALLING, callback=test, bouncetime=300)
+
 # set the image acquisition interval
 # fixed at a half hourly rate
 interval=[0,30]
-
-# startup requirements -----------------------  
-# check if we have a real time clock (RTC)
-# i2c device (only check the bus 1 - newer pi s) 	
-#rtc=check_output("sudo i2cdetect -y 1 | grep UU | wc -l",shell=True)
-
-# test the connection to the google name server
-#connection=check_output("ping -q -W 1 -c 1 8.8.8.8 > /dev/null && echo ok || echo error",shell=True)
-
-# if we have a connection to the net and there is a hwclock
-# update the hwclock. The internet connection is necessary to
-# update the software clock using an NTP server. If there is
-# no network this makes not sense
-#if rtc == "1" and connection == "ok" :
-#	call("sudo hwclock -w",shell=True)
-#----------------------------------------------
 
 # create infinite imaging loop!
 # if it's not time to take an image to upload
@@ -30,20 +35,32 @@ interval=[0,30]
 # webpage at /tmp/stream/pic.jpg
 while True:
 
-	# grap current time
-	currentMinute = datetime.now().minute
-	currentHour = datetime.now().hour
+        # grap current time
+        currentMinute = datetime.now().minute
+        currentHour = datetime.now().hour
 
-	# routine to grab gpio status and time the duration of the pulse
+        if sec >= 5:
+		# shutdown (no gpio cleanup needed)
+                call("sudo shutdown -h now",shell=True)
 
-	if any(s == currentMinute for s in interval) and currentHour < 22 and currentHour > 4 :
-	
-		# upload a phenopi image
-		call("/home/pi/phenopi/./upload_image.sh",shell=True)
-		
-		# wait a minute, otherwise we duplicate uploads
-		sleep(60)
-	else:
-		# if no phenopi image is taken update the streaming
-		# jpeg source
-		call("raspistill -n -w 640 -h 480 -q 95 -t 500 -th none -o /tmp/pic.jpg > /dev/null 2>&1",shell=True)
+        elif sec > 0 and sec < 5:
+                # take snapshot
+                call("raspistill -o /home/pi/snapshot.jpg",shell=True)
+
+        elif:
+                if any(s == currentMinute for s in interval) and currentHour < 22 and currentHour > 4 :
+
+                        # upload a phenopi image
+                        call("/home/pi/phenopi/./upload_image.sh",shell=True)
+
+                        # wait a minute, otherwise we duplicate uploads
+                        sleep(60)
+                else:
+                        # if no phenopi image is taken update the streaming
+                        # jpeg source
+                        call("raspistill -n -w 640 -h 480 -q 95 -t 500 -th none -o /tmp/pic.jpg > /dev/nu$
+
+
+# cleanup gpio pins
+GPIO.cleanup()
+
