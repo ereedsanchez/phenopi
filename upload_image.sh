@@ -102,6 +102,9 @@ if [[ $free_space -ge 98 ]];then
 	# results with raspistill vary / exif needs full paths in file input - output
 	exif --output=$path/phenopi_images/${site}_${file_date}.jpg --ifd=0 --tag=0x010e --set-value="$weather_string" --no-fixup $path/latest.jpg
 
+	# change permissions to read writable
+	sudo chmod a+rw $path/phenopi_images/*.jpg
+
 	# for debugging purposes copy latest image back into the home directory
 	# if online no data will be saved on the device, safe for this image!
 	cp $path/phenopi_images/${site}_${file_date}.jpg $path/latest.jpg
