@@ -30,7 +30,7 @@ def timer(channel):
     sec = tmp
 
 # intiate callback function
-GPIO.add_event_detect(16, GPIO.FALLING, callback=timer(), bouncetime=300)
+GPIO.add_event_detect(16, GPIO.FALLING, callback=timer(), bouncetime=200)
 
 # set the image acquisition interval
 # fixed at a half hourly rate
