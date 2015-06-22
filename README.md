@@ -1,5 +1,7 @@
 # PhenoPi
 
+Code to create a low budget (window mounted) PhenoCam using a raspberry pi camera.
+
 The current collection of scripts is rough around the edges and a work in progress.
 
 In theory there would be 3 scripts to run. One overall script called install_phenopi.sh and two others called by it, mainly install\_mjpeg\_daemon.sh (image acquisition daemon and server) and install\_rtc.sh (real time clock install).
