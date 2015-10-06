@@ -12,7 +12,7 @@ function get_weather() {
 		current_ip=$(curl -s ifconfig.me)
 
 		# get geolocation data 
-		geolocation_data=$(./pigeoip.py ${current_ip})
+		geolocation_data=$(./geoip.py ${current_ip})
 
 		# look up the location based upon the external ip
 		latitude=$(echo ${geolocation_data} | awk '{print $1}')
