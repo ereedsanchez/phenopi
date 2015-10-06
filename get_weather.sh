@@ -12,14 +12,11 @@ function get_weather() {
 		current_ip=$(curl -s ifconfig.me)
 
 		# get geolocation data 
-		geolocation_data=$(curl -s http://freegeoip.net/xml/${current_ip})
+		geolocation_data=$(./pigeoip.py ${current_ip})
 
 		# look up the location based upon the external ip
-		latitude=$(echo ${geolocation_data} | \
-			grep -o -P -i "(?<=<Latitude>).*(?=</Latitude>)")
-
-		longitude=$(echo ${geolocation_data} | \
-			grep -o -P -i "(?<=<Longitude>).*(?=</Longitude>)")
+		latitude=$(echo ${geolocation_data} | awk '{print $1}'
+		longitude=$(echo ${geolocation_data} | awk '{print $2}'
 
 		# get the current weather for the current location
 		# for some reason I can't split the lines, keep as is

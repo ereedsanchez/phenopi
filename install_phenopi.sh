@@ -94,6 +94,14 @@ else
 	sudo apt-get -y install xrdp > /dev/null 2>&1 # remote graphical login
 	sudo apt-get -y install lftp > /dev/null 2>&1 # ftp program with rsync qualities
 
+	# install pip 
+	sudo apt-get -y install python-pip > /dev/null 2>&1 # install pip
+	chmod +x pigeoip.py
+	
+	# install the maxmind geoip database / backend
+	pip install python-geoip
+	pip install python-geoip-geolite2
+
 	# feedback
 	echo "installing the mjpeg streamer software"
 	echo "-- give it some time"
