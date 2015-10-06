@@ -7,6 +7,13 @@
 # Install necessary packages using default raspberry pi password!
 # Please change the default password after the installation.
 
+# enable camera if not enabled
+# turn of red led light
+if ! grep "start_x=1" /boot/config.txt;
+	sudo sed -i "s/start_x=0/start_x=1/g" /boot/config.txt
+	sudo echo "disable_camera_led=1" >> /boot/config.txt
+fi
+
 # read command line parameters
 if [ -n "$1" ]; then
 	echo $1 > /home/pi/phenopi/config.txt
