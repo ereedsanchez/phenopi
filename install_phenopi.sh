@@ -96,7 +96,7 @@ else
 
 	# install pip 
 	sudo apt-get -y install python-pip > /dev/null 2>&1 # install pip
-	chmod +x pigeoip.py
+	chmod +x geoip.py
 	
 	# install the maxmind geoip database / backend
 	pip install python-geoip
