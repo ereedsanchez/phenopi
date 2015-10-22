@@ -12,46 +12,44 @@ function get_weather() {
 		current_ip=$(curl -s ifconfig.me)
 
 		# get geolocation data 
-		geolocation_data=$(~/phenopi/./mygeoip.py ${current_ip})
-
+		geolocation_data=$(./mygeoip.py ${current_ip})
+		
 		# look up the location based upon the external ip
 		latitude=$(echo ${geolocation_data} | awk '{print $1}')
 		longitude=$(echo ${geolocation_data} | awk '{print $2}')
 
 		# get the current weather for the current location
 		# for some reason I can't split the lines, keep as is
-		current_weather_data=$(curl -s "http://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&cnt=1&mode=json&units=metric")
+		current_weather_data=$(curl -s "http://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&cnt=1&mode=json&units=metric&appid=bd82977b86bf27fb59a04b61b657fb6f")
 
 		# extract parameters from openweathermap.org station summary
+		
+		w_latitude=$(echo $current_weather_data | grep -oP -i '(?<="lat":)[^\,]*' )
+		
+		w_longitude=$(echo $current_weather_data | grep -oP -i '(?<="lon":)[^\,]*' )
 
-		temp_day=$(echo $current_weather_data |\
-		 sed 's/:/ /g' | grep -oP -i '(?<="day"\s)[^\,]*')
+		temp_day=$(echo $current_weather_data | grep -oP -i '(?<="day":)[^\,]*' )
 
-		temp_min=$(echo $current_weather_data |\
-		 sed 's/:/ /g' | grep -oP -i '(?<="min"\s)[^\,]*')
+		temp_min=$(echo $current_weather_data | grep -oP -i '(?<="min":)[^\,]*' )
 
-		temp_max=$(echo $current_weather_data |\
-		 sed 's/:/ /g' | grep -oP -i '(?<="max"\s)[^\,]*')
+		temp_max=$(echo $current_weather_data | grep -oP -i '(?<="max":)[^\,]*' )
+		
+		humidity=$(echo $current_weather_data | grep -oP -i '(?<="humidity":)[^\,]*')
 
-		humidity=$(echo $current_weather_data |\
-		 sed 's/:/ /g' | grep -oP -i '(?<="humidity"\s)[^\,]*')
+		visibility=$(echo $current_weather_data | grep -oP -i '(?<="description":)[^\,]*' | sed 's/"//g')
 
-		visibility=$(echo $current_weather_data |\
-		 sed 's/:/ /g' | grep -oP -i '(?<="description"\s)[^\,]*' | sed 's/"//g')
+		clouds=$(echo $current_weather_data | grep -oP -i '(?<="clouds":)[^\,]*' | tr -d "[{}]")
 
-		clouds=$(echo $current_weather_data |\
-		 sed 's/:/ /g' | grep -oP -i '(?<="clouds"\s)[^\,]*' | sed 's/["{}]//g')
+		wind_speed=$(echo $current_weather_data | grep -oP -i '(?<="speed":)[^\,]*')
 
-		wind_speed=$(echo $current_weather_data |\
-		 sed 's/:/ /g' | grep -oP -i '(?<="speed"\s)[^\,]*')
-
-		pressure=$(echo $current_weather_data |\
-		 sed 's/:/ /g' | grep -oP -i '(?<="pressure"\s)[^\,]*')
+		pressure=$(echo $current_weather_data| grep -oP -i '(?<="pressure":)[^\,]*')
 
 		# create weather string, to be put in EXIF data
 		weather_string=$(echo "IP: ${current_ip},\
 		 Lat_deg: ${latitude},\
 		 Long_deg: ${longitude},\
+		 Weather_Lat_deg: ${w_latitude},\
+		 Weather_Long_deg: ${w_longitude},\
 		 Temp_day_C: ${temp_day},\
 		 Temp_min_C: ${temp_min},\
 		 Temp_max_C: ${temp_max},\
@@ -71,6 +69,8 @@ function get_weather() {
 		weather_string=$(echo "IP: NA,\
 		 Lat_deg: NA,\
 		 Long_deg: NA,\
+		 Weather_Lat_deg: NA,\
+		 Weather_Long_deg: NA,\
 		 Temp_day_C: NA,\
 		 Temp_min_C: NA,\
 		 Temp_max_C: NA,\
