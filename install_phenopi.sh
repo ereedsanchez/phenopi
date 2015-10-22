@@ -9,9 +9,15 @@
 
 # install geoip python library
 sudo apt-get -y install python-setuptools python-dev build-essential > /dev/null 2>&1 # all necessary python tools (pip)
-sudo pip install pygeoip
 
-
+# install pip 
+sudo apt-get -y install python-pip > /dev/null 2>&1 # install pip
+chmod +x geoip.py
+	
+# install the maxmind geoip database / backend
+pip install python-geoip
+pip install python-geoip-geolite2
+	
 # enable the x server
 xserver=`grep "start_x=1" /boot/config.txt | wc -l`
 
@@ -105,14 +111,6 @@ else
 	sudo apt-get -y install exif > /dev/null 2>&1 # install exif library 
 	sudo apt-get -y install xrdp > /dev/null 2>&1 # remote graphical login
 	sudo apt-get -y install lftp > /dev/null 2>&1 # ftp program with rsync qualities
-
-	# install pip 
-	sudo apt-get -y install python-pip > /dev/null 2>&1 # install pip
-	chmod +x geoip.py
-	
-	# install the maxmind geoip database / backend
-	pip install python-geoip
-	pip install python-geoip-geolite2
 
 	# feedback
 	echo "installing the mjpeg streamer software"
