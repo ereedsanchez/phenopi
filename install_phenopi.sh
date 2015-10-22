@@ -7,10 +7,25 @@
 # Install necessary packages using default raspberry pi password!
 # Please change the default password after the installation.
 
+# install geoip python library
+sudo apt-get -y install python-setuptools python-dev build-essential > /dev/null 2>&1 # all necessary python tools (pip)
+sudo pip install pygeoip
+
+
+# enable the x server
+xserver=`grep "start_x=1" /boot/config.txt | wc -l`
+
+# no led light
+led=`grep "disable_camera_led=1" /boot/config.txt | wc -l`
+
+# enable xserver
+if [$xserver == "1" ]; then
+	sudo sed -i "s/start_x=0/start_x=1/g" /boot/config.txt
+fi
+
 # enable camera if not enabled
 # turn of red led light
-if ! grep "start_x=1" /boot/config.txt;
-	sudo sed -i "s/start_x=0/start_x=1/g" /boot/config.txt
+if [$led == "0" ]; then
 	sudo echo "disable_camera_led=1" >> /boot/config.txt
 fi
 
@@ -45,14 +60,11 @@ else
 	current_ip=$(curl -s ifconfig.me)
 
 	# get geolocation data 
-	geolocation_data=$(curl -s http://freegeoip.net/xml/${current_ip})
+	geolocation_data=$(./geoip.py ${current_ip})
 
 	# look up the location based upon the external ip
-	latitude=$(echo ${geolocation_data} | \
-		grep -o -P -i "(?<=<Latitude>).*(?=</Latitude>)")
-	
-	longitude=$(echo ${geolocation_data} | \
-		grep -o -P -i "(?<=<Longitude>).*(?=</Longitude>)")
+	latitude=$(echo ${geolocation_data} | awk '{print $1}')
+	longitude=$(echo ${geolocation_data} | awk '{print $2}')
 
 	# check if we have an internet connection
 	timezone_data=$(curl -s http://www.earthtools.org/timezone/$latitude/$longitude)
