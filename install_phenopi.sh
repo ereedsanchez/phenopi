@@ -8,15 +8,13 @@
 # Please change the default password after the installation.
 
 # install geoip python library
-sudo apt-get -y install python-setuptools python-dev build-essential > /dev/null 2>&1 # all necessary python tools (pip)
-
 # install pip 
-sudo apt-get -y install python-pip > /dev/null 2>&1 # install pip
-chmod +x geoip.py
+sudo easy_install pip > /dev/null 2>&1 # install pip
 	
 # install the maxmind geoip database / backend
-pip install python-geoip
-pip install python-geoip-geolite2
+sudo pip install python-geoip
+sudo pip install python-geoip-geolite2
+chmod +x ~/phenopi/mygeoip.py
 	
 # enable the x server
 xserver=`grep "start_x=1" /boot/config.txt | wc -l`
@@ -66,7 +64,7 @@ else
 	current_ip=$(curl -s ifconfig.me)
 
 	# get geolocation data 
-	geolocation_data=$(./geoip.py ${current_ip})
+	geolocation_data=$(~/phenopi/./mygeoip.py ${current_ip})
 
 	# look up the location based upon the external ip
 	latitude=$(echo ${geolocation_data} | awk '{print $1}')
