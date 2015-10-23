@@ -71,11 +71,10 @@ else
 	longitude=$(echo ${geolocation_data} | awk '{print $2}')
 
 	# check if we have an internet connection
-	timezone_data=$(curl -s http://www.earthtools.org/timezone/$latitude/$longitude)
+	timezone_data=$(curl -s http://new.earthtools.org/timezone/$latitude/$longitude)
 
 	# grab the timezone offset from UTC (non daylight savings correction)
-	time_offset=$(echo ${timezone_data} | \
-		grep -o -P -i "(?<=<offset>).*(?=</offset>)")
+	time_offset=$(echo ${timezone_data} | grep -o -P -i "(?<=<offset>).*(?=</offset>)")
 
 	# feedback
 	echo "setting the time zone for: GMT${time_offset}"
