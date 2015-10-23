@@ -84,10 +84,10 @@ else
 
 	# swap the sign of the offset to 
 	# convert the sign from the UTC time zone TZ variable (for plotting in overlay)
-	if [ "$sign" == "+" ]; then
-		tzone=`echo "$time_offset" | sed 's/+/-/g'`
-	else
+	if [ "$sign" == "-" ]; then
 		tzone=`echo "$time_offset" | sed 's/-/+/g'`
+	else
+		tzone=`echo "+$time_offset"`
 	fi
 
 	# set the time zone, time will be set by the NTP server
