@@ -23,13 +23,13 @@ xserver=`grep "start_x=1" /boot/config.txt | wc -l`
 led=`grep "disable_camera_led=1" /boot/config.txt | wc -l`
 
 # enable xserver
-if [$xserver == "1" ]; then
+if [ "$xserver" == "1" ]; then
 	sudo sed -i "s/start_x=0/start_x=1/g" /boot/config.txt
 fi
 
 # enable camera if not enabled
 # turn of red led light
-if [$led == "0" ]; then
+if [ "$led" == "0" ]; then
 	sudo echo "disable_camera_led=1" >> /boot/config.txt
 fi
 
