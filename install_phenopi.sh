@@ -87,7 +87,7 @@ else
 	if [ "$sign" == "-" ]; then
 		tzone=`echo "$time_offset" | sed 's/-/+/g'`
 	else
-		tzone=`echo "+$time_offset"`
+		tzone=`echo "-$time_offset"`
 	fi
 
 	# set the time zone, time will be set by the NTP server
