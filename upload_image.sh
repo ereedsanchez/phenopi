@@ -30,7 +30,7 @@ file_date=$(date +"%Y_%m_%d_%H%M%S")
 
 
 # get time zone sign
-sign=$(date +"%Z" | )
+sign=$(date +"%Z" | cut -c'4')
 
 # convert the sign from the UTC time zone TZ variable (for plotting in overlay)
 if [ "$sign" = "+" ]; then
