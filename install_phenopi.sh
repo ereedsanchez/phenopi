@@ -8,7 +8,10 @@
 # Please change the default password after the installation.
 
 # install geoip python library
-# install pip 
+# install pip
+
+sudo apt-get -y install python-setuptools
+
 sudo easy_install pip > /dev/null 2>&1 # install pip
 	
 # install the maxmind geoip database / backend
@@ -97,11 +100,6 @@ else
 	# feedback
 	echo "installing the necessary software"
 	echo "-- this might take a while, go get coffee"
-
-	# update the system
-	sudo apt-get -y update > /dev/null 2>&1
-	sudo apt-get -y upgrade > /dev/null 2>&1
-	sudo apt-get -y clean > /dev/null 2>&1
 
 	# install all packages we need
 	sudo apt-get -y install imagemagick > /dev/null 2>&1 # image manipulation software
