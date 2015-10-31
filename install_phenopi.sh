@@ -64,7 +64,7 @@ else
 	echo "-- looking up time zone"
 	
 	# determine the pi's external ip address
-	current_ip=$(curl -s ifconfig.me)
+	current_ip=$(curl -s ifconfig.co)
 
 	# get geolocation data 
 	geolocation_data=$(~/phenopi/./mygeoip.py ${current_ip})
