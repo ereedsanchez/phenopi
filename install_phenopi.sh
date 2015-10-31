@@ -44,7 +44,7 @@ else
 fi
 
 if [ -n "$2" ]; then
-	echo $1 >> /home/pi/phenopi/config.txt
+	echo $2 >> /home/pi/phenopi/config.txt
 else
  	echo 0 >> /home/pi/phenopi/config.txt
 fi
