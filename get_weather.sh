@@ -9,7 +9,7 @@ function get_weather() {
 	if [[ $connection == "ok" ]];then
 
 		# determine the pi's external ip address
-		current_ip=$(curl -s ifconfig.me)
+		current_ip=$(curl -s ifconfig.co)
 
 		# get geolocation data 
 		geolocation_data=$(./mygeoip.py ${current_ip})
@@ -24,7 +24,7 @@ function get_weather() {
 
 		# extract parameters from openweathermap.org station summary
 		
-		w_latitude=$(echo $current_weather_data | grep -oP -i '(?<="lat":)[^\,]*' )
+		w_latitude=$(echo $current_weather_data | grep -oP -i '(?<="lat":)[^\,]*'  | tr -d "[{}]" )
 		
 		w_longitude=$(echo $current_weather_data | grep -oP -i '(?<="lon":)[^\,]*' )
 
