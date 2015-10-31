@@ -7,6 +7,9 @@
 # Install necessary packages using default raspberry pi password!
 # Please change the default password after the installation.
 
+# update apt library
+sudo apt-get update
+
 # install geoip python library
 # install pip
 
