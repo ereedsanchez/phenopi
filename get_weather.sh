@@ -20,10 +20,9 @@ function get_weather() {
 
 		# get the current weather for the current location
 		# for some reason I can't split the lines, keep as is
-		current_weather_data=$(curl -s "http://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&cnt=1&mode=json&units=metric&appid=bd82977b86bf27fb59a04b61b657fb6f")
+		current_weather_data=$(curl -s "http://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&cnt=1&mode=json&units=metric&appid=d0fd40b33fcecb1d0ae461686eaeddc1")
 
-		# extract parameters from openweathermap.org station summary
-		
+		# extract parameters from openweathermap.org station summary	
 		w_latitude=$(echo $current_weather_data | grep -oP -i '(?<="lat":)[^\,]*'  | tr -d "[{}]" )
 		
 		w_longitude=$(echo $current_weather_data | grep -oP -i '(?<="lon":)[^\,]*' )
