@@ -65,7 +65,6 @@ if [[ $free_space -ge 98 ]];then
 	raspistill -mm matrix \
 	 -awb off \
 	 -awbg 1.5,1.2 \
-	 -md 4 \
 	 -w 1296 -h 972 \
 	 -vf -hf \
 	 -t 500 \
