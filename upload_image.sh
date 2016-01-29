@@ -30,7 +30,7 @@ file_date=$(date +"%Y_%m_%d_%H%M%S")
 
 
 # get time zone sign
-sign=$(date +"%Z" | )
+sign=$(date +"%Z" | cut -c'4')
 
 # convert the sign from the UTC time zone TZ variable (for plotting in overlay)
 if [ "$sign" = "+" ]; then
@@ -65,7 +65,6 @@ if [[ $free_space -ge 98 ]];then
 	raspistill -mm matrix \
 	 -awb off \
 	 -awbg 1.5,1.2 \
-	 -md 4 \
 	 -w 1296 -h 972 \
 	 -vf -hf \
 	 -t 500 \

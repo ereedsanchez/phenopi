@@ -43,3 +43,15 @@ After the installation your camera should be up and running and you should be ab
 ## Notes
 
 Make sure that your raspberry pi camera is enabled, a description on how to enable your camera is provided on [the raspberry pi site](https://www.raspberrypi.org/documentation/usage/camera/)
+
+
+## TODO:
+
+- RAM disk writes for temporary files (https://www.domoticz.com/wiki/Setting_up_a_RAM_drive_on_Raspberry_Pi)
+- watchdog routines
+- contemplate moving image upload routine to python
+- installation framework 
+- dynamic AP on install
+- installation GUI using whiplash
+- trap errors on faulty time (no NTP server / no connection)
+- generate own image to flash to SD

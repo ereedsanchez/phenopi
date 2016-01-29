@@ -12,9 +12,6 @@ if [[ ramdisk != "1" ]];then
 	sudo mount -a
 fi
 
-# Install necessary packages using default raspberry pi password!
-# Please change the default password after the installation.
-
 # enable the x server
 xserver=`grep "start_x=1" /boot/config.txt | wc -l`
 
@@ -22,13 +19,13 @@ xserver=`grep "start_x=1" /boot/config.txt | wc -l`
 led=`grep "disable_camera_led=1" /boot/config.txt | wc -l`
 
 # enable xserver
-if [$xserver == "1" ]; then
+if [ "$xserver" == "1" ]; then
 	sudo sed -i "s/start_x=0/start_x=1/g" /boot/config.txt
 fi
 
 # enable camera if not enabled
 # turn of red led light
-if [$led == "0" ]; then
+if [ "$led" == "0" ]; then
 	sudo echo "disable_camera_led=1" >> /boot/config.txt
 fi
 
@@ -40,7 +37,7 @@ else
 fi
 
 if [ -n "$2" ]; then
-	echo $1 >> /home/pi/phenopi/config.txt
+	echo $2 >> /home/pi/phenopi/config.txt
 else
  	echo 0 >> /home/pi/phenopi/config.txt
 fi
@@ -59,6 +56,9 @@ else
 	echo "We are online"
 	echo "-- looking up time zone"
 
+	# update apt library
+	sudo apt-get update
+
 	# install geoip python library
 	# install pip 
 	sudo easy_install pip > /dev/null 2>&1 # install pip
@@ -69,7 +69,7 @@ else
 	chmod +x ~/phenopi/mygeoip.py
 	
 	# determine the pi's external ip address
-	current_ip=$(curl -s ifconfig.me)
+	current_ip=$(curl -s ifconfig.co)
 
 	# get geolocation data 
 	geolocation_data=$(~/phenopi/./mygeoip.py ${current_ip})
@@ -79,11 +79,10 @@ else
 	longitude=$(echo ${geolocation_data} | awk '{print $2}')
 
 	# check if we have an internet connection
-	timezone_data=$(curl -s http://www.earthtools.org/timezone/$latitude/$longitude)
+	timezone_data=$(curl -s http://new.earthtools.org/timezone/$latitude/$longitude)
 
 	# grab the timezone offset from UTC (non daylight savings correction)
-	time_offset=$(echo ${timezone_data} | \
-		grep -o -P -i "(?<=<offset>).*(?=</offset>)")
+	time_offset=$(echo ${timezone_data} | grep -o -P -i "(?<=<offset>).*(?=</offset>)")
 
 	# feedback
 	echo "setting the time zone for: GMT${time_offset}"
@@ -93,10 +92,10 @@ else
 
 	# swap the sign of the offset to 
 	# convert the sign from the UTC time zone TZ variable (for plotting in overlay)
-	if [ "$sign" == "+" ]; then
-		tzone=`echo "$time_offset" | sed 's/+/-/g'`
-	else
+	if [ "$sign" == "-" ]; then
 		tzone=`echo "$time_offset" | sed 's/-/+/g'`
+	else
+		tzone=`echo "-$time_offset"`
 	fi
 
 	# set the time zone, time will be set by the NTP server
@@ -106,11 +105,6 @@ else
 	# feedback
 	echo "installing the necessary software"
 	echo "-- this might take a while, go get coffee"
-
-	# update the system
-	sudo apt-get -y update > /dev/null 2>&1
-	sudo apt-get -y upgrade > /dev/null 2>&1
-	sudo apt-get -y clean > /dev/null 2>&1
 
 	# install all packages we need
 	sudo apt-get -y install imagemagick > /dev/null 2>&1 # image manipulation software
