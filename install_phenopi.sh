@@ -4,18 +4,17 @@
 # Installs necessary packages with minimal
 # user intervention.
 
+# create ramdisk for image stream
+ramdisk=`cat /etc/fstab | grep data | wc -l`
+if [[ ramdisk != "1" ]];then
+	sudo mkdir /var/tmp
+	echo "tmpfs /var/tmp tmpfs nodev,nosuid,size=10M 0 0" | sudo tee -a /etc/fstab
+	sudo mount -a
+fi
+
 # Install necessary packages using default raspberry pi password!
 # Please change the default password after the installation.
 
-# install geoip python library
-# install pip 
-sudo easy_install pip > /dev/null 2>&1 # install pip
-	
-# install the maxmind geoip database / backend
-sudo pip install python-geoip
-sudo pip install python-geoip-geolite2
-chmod +x ~/phenopi/mygeoip.py
-	
 # enable the x server
 xserver=`grep "start_x=1" /boot/config.txt | wc -l`
 
@@ -59,6 +58,15 @@ else
 	# some feedback
 	echo "We are online"
 	echo "-- looking up time zone"
+
+	# install geoip python library
+	# install pip 
+	sudo easy_install pip > /dev/null 2>&1 # install pip
+	
+	# install the maxmind geoip database / backend
+	sudo pip install python-geoip
+	sudo pip install python-geoip-geolite2
+	chmod +x ~/phenopi/mygeoip.py
 	
 	# determine the pi's external ip address
 	current_ip=$(curl -s ifconfig.me)
@@ -109,6 +117,25 @@ else
 	sudo apt-get -y install exif > /dev/null 2>&1 # install exif library 
 	sudo apt-get -y install xrdp > /dev/null 2>&1 # remote graphical login
 	sudo apt-get -y install lftp > /dev/null 2>&1 # ftp program with rsync qualities
+
+	# install all dhcp necessary software
+	# to create a wifi access point for wireless install
+	sudo apt-get -y install hostapd > /dev/null 2>&1
+	sudo apt-get -y install isc-dhcp-server > /dev/null 2>&1 
+
+	# move new access point server in place
+	# this allows the use of 'rogue' wifi cards with the
+	# realtek driver / chipset
+	sudo mv -f /usr/sbin/hostapd /usr/sbin/hostapd.bak
+	sudo mv -f hostapd /usr/sbin
+	sudo chmod 755 /usr/sbin/hostapd
+
+	# dhcp settings
+	sudo mv -f isc-dhcp-server /etc/default/isc-dhcp-server
+	sudo service isc-dhcp-server restart
+	  
+	sudo mv -f dhcpd.conf /etc/dhcp/dhcpd.conf 
+	sudo service dhcpd restart
 
 	# feedback
 	echo "installing the mjpeg streamer software"

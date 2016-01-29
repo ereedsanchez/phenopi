@@ -11,6 +11,7 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(16, GPIO.IN, pull_up_down = GPIO.PUD_UP)
 GPIO.setup(12, GPIO.OUT)
 
+# set sec
 sec = 0
 
 # setup a callback function to take a picture when
@@ -96,6 +97,8 @@ while True:
             # if no phenopi image is taken update the streaming
             # jpeg source
             call("raspistill -n -w 640 -h 480 -q 95 -t 500 -th none -o /tmp/pic.jpg > /dev/null 2>&1",shell=True)
+
+    sleep(30)
 
 # cleanup gpio pins
 GPIO.cleanup()
