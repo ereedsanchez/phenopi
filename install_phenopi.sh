@@ -64,7 +64,9 @@ else
 
 	# install geoip python library
 	# install pip 
-	sudo easy_install pip > /dev/null 2>&1 # install pip
+	# does not work "easy_install pip"
+	sudo apt install python-pip
+	#sudo easy_install pip > /dev/null 2>&1 # install pip
 	
 	# install the maxmind geoip database / backend
 	sudo pip install python-geoip
