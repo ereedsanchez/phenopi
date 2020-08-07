@@ -112,11 +112,20 @@ else
 	echo "-- this might take a while, go get coffee"
 
 	# install all packages we need
-	sudo apt-get -y install imagemagick > /dev/null 2>&1 # image manipulation software
+	### did not work error 
+	###E: Could not get lock /var/cache/apt/archives/lock - open (11: Resource temporarily unavailable)
+	### fix error
+	
+	sudo mv /var/cache/apt/archives/lock /var/cache/apt/archives/lock_bak
+	###sudo apt-get -y install imagemagick > /dev/null 2>&1 # image manipulation software
+	sudo apt install -y imagekick
+	
 	sudo apt-get -y install exif > /dev/null 2>&1 # install exif library 
 	sudo apt-get -y install xrdp > /dev/null 2>&1 # remote graphical login
 	sudo apt-get -y install lftp > /dev/null 2>&1 # ftp program with rsync qualities
 
+
+###currently here
 	# install all dhcp necessary software
 	# to create a wifi access point for wireless install
 	sudo apt-get -y install hostapd > /dev/null 2>&1
