@@ -19,8 +19,10 @@ xserver=`grep "start_x=1" /boot/config.txt | wc -l`
 led=`grep "disable_camera_led=1" /boot/config.txt | wc -l`
 
 # enable xserver
-## I am currently here in the process of installing on a pi
+## I skipped this step
 if [ "$xserver" == "1" ]; then
+
+## Continued here
 	sudo sed -i "s/start_x=0/start_x=1/g" /boot/config.txt
 fi
 
