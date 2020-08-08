@@ -143,6 +143,8 @@ else
 	
 	##does not work 
 	sudo mv -f hostapd /usr/sbin
+	## Fix download hostapd and scp into place scp /Users/saycel/Downloads/hostapd pi@192.168.1.74:/home/pi/phenopi/
+	sudo mv -f hostapd /usr/sbin
 	
 	
 ###currently here
@@ -150,8 +152,24 @@ else
 	sudo chmod 755 /usr/sbin/hostapd
 
 	# dhcp settings
+	##does not work 
 	sudo mv -f isc-dhcp-server /etc/default/isc-dhcp-server
+	### fix create file isc-dhcp-server and copy contents
+	sudo mv -f isc-dhcp-server /etc/default/isc-dhcp-server
+	
+	
+	
+	### does not work - Error: Not searching LDAP since ldap-server, ldap-port and ldap-base-dn were not specified in the config file
+	### Starting ISC DHCPv4 server: dhcpdcheck syslog for diagnostics. ... failed!
+	### Failed to start LSB: DHCP server.
 	sudo service isc-dhcp-server restart
+		
+	
+###STUCK HERE
+####pi@raspberrypi:/etc/ldap $ sudo service isc-dhcp-server restart
+###Job for isc-dhcp-server.service failed because the control process exited with error code.
+###See "systemctl status isc-dhcp-server.service" and "journalctl -xe" for details.
+
 	  
 	sudo mv -f dhcpd.conf /etc/dhcp/dhcpd.conf 
 	sudo service dhcpd restart
