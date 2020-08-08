@@ -125,17 +125,28 @@ else
 	sudo apt-get -y install lftp > /dev/null 2>&1 # ftp program with rsync qualities
 
 
-###currently here
 	# install all dhcp necessary software
 	# to create a wifi access point for wireless install
 	sudo apt-get -y install hostapd > /dev/null 2>&1
+	
+	## has error Aug 08 00:06:15 raspberrypi systemd[1]: isc-dhcp-server.service: Control process exited, code=exited status=1
+###aspberrypi systemd[1]: Failed to start LSB: DHCP server.
 	sudo apt-get -y install isc-dhcp-server > /dev/null 2>&1 
+
+##fix error?
+        sudo apt-get -y install isc-dhcp-server-ldap	
 
 	# move new access point server in place
 	# this allows the use of 'rogue' wifi cards with the
 	# realtek driver / chipset
 	sudo mv -f /usr/sbin/hostapd /usr/sbin/hostapd.bak
+	
+	##does not work 
 	sudo mv -f hostapd /usr/sbin
+	
+	
+###currently here
+	
 	sudo chmod 755 /usr/sbin/hostapd
 
 	# dhcp settings
